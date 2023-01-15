@@ -1,0 +1,9 @@
+The procedure following which the code was written
+
+- setup all the interfaces for cache.go in cacher.go
+- setup the crud operations for server in cache.go
+- setup the connections, handle the connection 
+- start the server that will create the leader
+- create a client in main.go
+- setup the commands in command.go
+- add parsecommand to server.go and command.go
