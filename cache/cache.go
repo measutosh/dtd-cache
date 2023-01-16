@@ -2,6 +2,7 @@ package cache
 
 import (
 	"fmt"
+	"log"
 	"sync"
 	"time"
 )
@@ -42,19 +43,33 @@ func (c *Cache) Get(key []byte) ([]byte, error) {
   defer c.lock.RUnlock()
 
   keyStr := string(key)
-
   val, ok := c.data[keyStr]
   if !ok {
     return nil, fmt.Errorf("key (%s) was not found", keyStr)
   }
 
+  log.Printf("GET key %s = %s\n", string(key), string(val))
   return val, nil
 }
 
 func (c *Cache) Set(key, value []byte, ttl time.Duration) error {
+  // set the data
+  // spinup a goroutine with the ticker
+  // wait until the ticker is done
+  // then read the data
+  
   c.lock.Lock()
   defer c.lock.Unlock()
 
+  c.data[string(key)] = value
+
+  log.Printf("SET %s to %s\n", string(key), string(value))
+
+  
+  go func() {
+    <-time.After(ttl)
+    delete(c.data, string(key))
+  }()
   c.data[string(key)] = value
 
   return nil

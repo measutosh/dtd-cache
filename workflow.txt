@@ -7,3 +7,8 @@ The procedure following which the code was written
 - create a client in main.go
 - setup the commands in command.go
 - add parsecommand to server.go and command.go
+- setup the goroutine and ticker in cache.go
+- setup sendtofollowers in server.go using context
+- setup the GET command in switch case in server.go
+- modify the GET function in cache.go
+- combine all in main.go
