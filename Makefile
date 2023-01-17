@@ -13,3 +13,6 @@ build:
 
 run: build
 	./bin/dtb-cache
+
+runfollower: build
+	./bin/dtb-cache --listenaddr :4000 --leaderaddr :3000

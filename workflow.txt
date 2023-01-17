@@ -12,3 +12,5 @@ The procedure following which the code was written
 - setup the GET command in switch case in server.go
 - modify the GET function in cache.go
 - combine all in main.go
+- refractor a little to add the leader listen address to main.go, server.go
+-

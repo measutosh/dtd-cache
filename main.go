@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -10,9 +11,18 @@ import (
 )
 
 func main() {
+
+  var (
+    listenAddr = flag.String("listenaddr", ":3000", "listen address of the server")
+    leaderAddr = flag.String("leaderaddr", "", "listen address of the leader")
+  )
+
+  flag.Parse()
+  
 	opts := ServerOpts{
-		ListenAddr: ":3000",
+		ListenAddr: *listenAddr,
 		IsLeader:   true,
+    LeaderAddr : *leaderAddr,
 	}
 
 	go func() {
@@ -22,7 +32,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-    conn.Write([]byte("SET Foo Bar 2500000000"))
+    conn.Write([]byte("SET Foo Bar 25000000000"))
 
     time.Sleep(time.Second * 2)
     conn.Write([]byte("GET Foo"))
