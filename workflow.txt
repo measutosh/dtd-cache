@@ -13,4 +13,6 @@ The procedure following which the code was written
 - modify the GET function in cache.go
 - combine all in main.go
 - refractor a little to add the leader listen address to main.go, server.go
--
+- setup ToBytes in commands.go
+- setup what shoud happen if the leader isn't up in server.go
+- remove the dummy code for set and get from main.go

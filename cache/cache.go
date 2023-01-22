@@ -8,62 +8,60 @@ import (
 )
 
 type Cache struct {
-  lock sync.RWMutex
-  data map[string][]byte
+	lock sync.RWMutex
+	data map[string][]byte
 }
 
 func New() *Cache {
-  return &Cache{
-  	// lock: sync.RWMutex{},
-  	data: make(map[string][]byte),
-  }
+	return &Cache{
+		// lock: sync.RWMutex{},
+		data: make(map[string][]byte),
+	}
 }
-
 
 func (c *Cache) Delete(key []byte) error {
-  c.lock.RLock()
-  defer c.lock.RUnlock()
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 
-  delete(c.data, string(key))
+	delete(c.data, string(key))
 
-  return nil
+	return nil
 }
 
-
 func (c *Cache) Has(key []byte) bool {
-  c.lock.RLock()
-  defer c.lock.RLock() 
+	c.lock.RLock()
+	defer c.lock.RLock()
 
-  _, ok := c.data[string(key)]
-  return ok
+	_, ok := c.data[string(key)]
+	return ok
 }
 
 func (c *Cache) Get(key []byte) ([]byte, error) {
-  c.lock.RLock()
-  defer c.lock.RUnlock()
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 
-  keyStr := string(key)
-  val, ok := c.data[keyStr]
-  if !ok {
-    return nil, fmt.Errorf("key (%s) was not found", keyStr)
-  }
+	keyStr := string(key)
+	val, ok := c.data[keyStr]
+	if !ok {
+		return nil, fmt.Errorf("key (%s) was not found", keyStr)
+	}
 
-  log.Printf("GET key %s = %s\n", string(key), string(val))
-  return val, nil
+	log.Printf("GET key %s = %s\n", string(key), string(val))
+	return val, nil
 }
 
 func (c *Cache) Set(key, value []byte, ttl time.Duration) error {
-  
-  c.lock.Lock()
-  defer c.lock.Unlock()
 
-  c.data[string(key)] = value
-  log.Printf("SET %s to %s\n", string(key), string(value))
-  
-  go func() {
-    <-time.After(ttl)
-    delete(c.data, string(key))
-  }()
+	c.lock.Lock()
+	defer c.lock.Unlock()
 
-  return nil
+	c.data[string(key)] = value
+	log.Printf("SET %s to %s\n", string(key), string(value))
+
+	go func() {
+		<-time.After(ttl)
+		delete(c.data, string(key))
+	}()
+
+	return nil
 }
