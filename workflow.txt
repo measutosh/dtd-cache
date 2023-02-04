@@ -16,3 +16,5 @@ The procedure following which the code was written
 - setup ToBytes in commands.go
 - setup what shoud happen if the leader isn't up in server.go
 - remove the dummy code for set and get from main.go
+- modify the command.go into protocol.go
+- setup the protocol in protocol.go
