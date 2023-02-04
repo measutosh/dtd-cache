@@ -1,26 +1,26 @@
 package main
 
-import (
-	"flag"
+// import (
+// 	"flag"
 
-	"main/cache"
-)
+// 	"main/cache"
+// )
 
-func main() {
+// func main() {
 
-	var (
-		listenAddr = flag.String("listenaddr", ":3000", "listen address of the server")
-		leaderAddr = flag.String("leaderaddr", "", "listen address of the leader")
-	)
+// 	var (
+// 		listenAddr = flag.String("listenaddr", ":3000", "listen address of the server")
+// 		leaderAddr = flag.String("leaderaddr", "", "listen address of the leader")
+// 	)
 
-	flag.Parse()
+// 	flag.Parse()
 
-	opts := ServerOpts{
-		ListenAddr: *listenAddr,
-		IsLeader:   len(*leaderAddr) == 0,
-		LeaderAddr: *leaderAddr,
-	}
+// 	opts := ServerOpts{
+// 		ListenAddr: *listenAddr,
+// 		IsLeader:   len(*leaderAddr) == 0,
+// 		LeaderAddr: *leaderAddr,
+// 	}
 
-	server := NewServer(opts, cache.New())
-	server.Start()
-}
+// 	server := NewServer(opts, cache.New())
+// 	server.Start()
+// }

@@ -1,4 +1,10 @@
-package main
+    package main
+
+import (
+    "bytes"
+    "encoding/binary"
+    "io"
+)
 
 type Command byte 
 
@@ -19,13 +25,13 @@ func (c *CommandSet) Bytes () []byte{
     buf := new(bytes.Buffer)
     binary.Write(buf, binary.LittleEndian, CmdSet)
 
-    binary.Write(buf, binary.LittleEndian. len(c.Key))
-    binary.Write(buf, binary.LittleEndian. c.Value))
+    binary.Write(buf, binary.LittleEndian, len(c.Key))
+    binary.Write(buf, binary.LittleEndian, c.Value)
     
-    binary.Write(buf, binary.LittleEndian. len(c.Key))
-    binary.Write(buf, binary.LittleEndian. c.Value))
+    binary.Write(buf, binary.LittleEndian, len(c.Key))
+    binary.Write(buf, binary.LittleEndian, c.Value)
     
-    binary.Write(buf, binary.LittleEndian. c.TTL))
+    binary.Write(buf, binary.LittleEndian, c.TTL)
 
     return buf.Bytes()
 }
