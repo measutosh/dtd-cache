@@ -3,6 +3,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 )
@@ -16,5 +17,7 @@ func TestParseSetCommand(t *testing.T) {
 
 	fmt.Println(cmd.Bytes())
 
-	//r := bytes.NewReader(cmd.Bytes())
+	r := bytes.NewReader(cmd.Bytes())
+
+    ParseCommand(r)
 }

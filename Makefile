@@ -16,3 +16,5 @@ run: build
 
 runfollower: build
 	./bin/dtb-cache --listenaddr :4000 --leaderaddr :3000
+test:
+	@go test -v ./...

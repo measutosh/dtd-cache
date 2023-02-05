@@ -26,10 +26,12 @@ func (c *CommandSet) Bytes () []byte{
     buf := new(bytes.Buffer)
     binary.Write(buf, binary.LittleEndian, CmdSet)
 
-    binary.Write(buf, binary.LittleEndian, int(len(c.Key)))
+    keyLen := int32(len(c.Key))
+    binary.Write(buf, binary.LittleEndian, keyLen)
     binary.Write(buf, binary.LittleEndian, c.Value)
-    
-    binary.Write(buf, binary.LittleEndian, int(len(c.Key)))
+
+    valueLen := int32(len(c.Value))
+    binary.Write(buf, binary.LittleEndian, valueLen)
     binary.Write(buf, binary.LittleEndian, c.Value)
     
     binary.Write(buf, binary.LittleEndian, int(c.TTL))
@@ -45,6 +47,24 @@ func ParseCommand(r io.Reader) {
 
     switch cmd {
         case CmdSet:
-        fmt.Println("SET")
+            set := parseSetCommand(r)
+            fmt.Println(set)
     }
 }
+
+
+func parseSetCommand(r io.Reader) *CommandSet {
+    cmd := &CommandSet{}
+
+    var keyLen int64
+    binary.Read(r, binary.LittleEndian, keyLen)
+    cmd.Key = make([]byte, keyLen)
+    binary.Read(r, binary.LittleEndian, cmd.Key)
+
+    return cmd
+}
+
+
+
+
+
