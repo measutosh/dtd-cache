@@ -18,3 +18,4 @@ The procedure following which the code was written
 - remove the dummy code for set and get from main.go
 - modify the command.go into protocol.go
 - setup the protocol in protocol.go
+- setparsecommand function and it's test function for key, value,ttl

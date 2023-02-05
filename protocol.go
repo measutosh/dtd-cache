@@ -34,7 +34,7 @@ func (c *CommandSet) Bytes () []byte{
     binary.Write(buf, binary.LittleEndian, valueLen)
     binary.Write(buf, binary.LittleEndian, c.Value)
     
-    binary.Write(buf, binary.LittleEndian, int(c.TTL))
+    binary.Write(buf, binary.LittleEndian, int32(c.TTL))
 
     return buf.Bytes()
 }
@@ -56,10 +56,20 @@ func ParseCommand(r io.Reader) {
 func parseSetCommand(r io.Reader) *CommandSet {
     cmd := &CommandSet{}
 
-    var keyLen int64
-    binary.Read(r, binary.LittleEndian, keyLen)
+    var keyLen int32
+    binary.Read(r, binary.LittleEndian, &keyLen)
     cmd.Key = make([]byte, keyLen)
-    binary.Read(r, binary.LittleEndian, cmd.Key)
+    binary.Read(r, binary.LittleEndian, &cmd.Key)
+
+    var valueLen int32
+    binary.Read(r, binary.LittleEndian, &valueLen)
+    cmd.Value = make([]byte, valueLen)
+    binary.Read(r, binary.LittleEndian, &cmd.Value)
+
+    var ttl int32
+    binary.Read(r, binary.LittleEndian, &ttl)
+    cmd.TTL = int(ttl)
+    
 
     return cmd
 }
