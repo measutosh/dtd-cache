@@ -1,9 +1,10 @@
-    package main
+package main
 
 import (
-    "bytes"
-    "encoding/binary"
-    "io"
+	"bytes"
+	"encoding/binary"
+	"fmt"
+	"io"
 )
 
 type Command byte 
@@ -25,13 +26,13 @@ func (c *CommandSet) Bytes () []byte{
     buf := new(bytes.Buffer)
     binary.Write(buf, binary.LittleEndian, CmdSet)
 
-    binary.Write(buf, binary.LittleEndian, len(c.Key))
+    binary.Write(buf, binary.LittleEndian, int(len(c.Key)))
     binary.Write(buf, binary.LittleEndian, c.Value)
     
-    binary.Write(buf, binary.LittleEndian, len(c.Key))
+    binary.Write(buf, binary.LittleEndian, int(len(c.Key)))
     binary.Write(buf, binary.LittleEndian, c.Value)
     
-    binary.Write(buf, binary.LittleEndian, c.TTL)
+    binary.Write(buf, binary.LittleEndian, int(c.TTL))
 
     return buf.Bytes()
 }
@@ -39,5 +40,11 @@ func (c *CommandSet) Bytes () []byte{
 
 func ParseCommand(r io.Reader) {
     // Parse commands straight from the connection
-    
+    var cmd Command
+    binary.Read(r, binary.LittleEndian, &cmd)
+
+    switch cmd {
+        case CmdSet:
+        fmt.Println("SET")
+    }
 }
